@@ -26,10 +26,5 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.7",
     "sequelize-cli": "^6.6.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "bcrypt"
-    ]
   }
 }

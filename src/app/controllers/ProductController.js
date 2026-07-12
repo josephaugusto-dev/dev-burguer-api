@@ -1,7 +1,7 @@
-import * as Yup from 'yup';
-import Product from './../models/Product.js';
 import { request } from 'express';
-import Category from '../models/category.js';
+import * as Yup from 'yup';
+import Category from '../models/Category.js';
+import Product from './../models/Product.js';
 
 class ProductController {
   async store(request, response) {
@@ -26,7 +26,7 @@ class ProductController {
       price,
       category_id,
       path: filename,
-      offer
+      offer,
     });
 
     return response.status(201).json(newProduct);
@@ -47,37 +47,39 @@ class ProductController {
     }
 
     const { name, price, category_id, offer } = request.body;
-    const { id } = request.params
+    const { id } = request.params;
 
-    let path
-    if(request.file){
+    let path;
+    if (request.file) {
       const { filename } = request.file;
-      path = filename
+      path = filename;
     }
-    
 
-      await Product.update({
-      name,
-      price,
-      category_id,
-      path,
-      offer
-    },{
-      where: {
-        id
-      }
-    });
+    await Product.update(
+      {
+        name,
+        price,
+        category_id,
+        path,
+        offer,
+      },
+      {
+        where: {
+          id,
+        },
+      },
+    );
 
     return response.status(200).json();
   }
 
   async index(_request, response) {
     const products = await Product.findAll({
-      include:{
+      include: {
         model: Category,
         as: 'category',
-        attributes : ['id', 'name'],
-      }
+        attributes: ['id', 'name'],
+      },
     });
 
     console.log(request.userId);
